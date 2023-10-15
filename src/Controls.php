@@ -112,12 +112,14 @@ class Controls
             return preg_match('/\.php$/', $item);
         });
         echo "\n";
+        echo "Started at              : " . Goals::status()->started . "\n";
+        echo "Finished at             : " . (count($output) ? 'still running' : Goals::status()->finished) . "\n";
         echo "Speed                   : " . Goals::status()->speed . "\n";
         echo "Reject                  : " . Goals::status()->reject . "\n\n";
         printf("%26s%-18s%-12s%-16s%-16s\n", "", "Speed", "Reject", "Iterations", "Goals");
         foreach (Goals::status() as $key => $item) {
             if (is_numeric($key)) {
-                printf("%-5s%-19s: %-18s%-12s%-16s%-11s\n", "", $item['file'], number_format($item['speed'], 2) . ' goals/sec', number_format($item['reject'], 2) . ' %', $item['n'], $item['g']);
+                printf("%-5s%-19s: %-18s%-12s%-16s%-11s\n", "", $item['file'], number_format($item['speed'], 2) . ' goals/min', number_format($item['reject'], 2) . ' %', $item['n'], $item['g']);
             }
         }
 

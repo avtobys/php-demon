@@ -67,15 +67,19 @@ class Goals
         $data = [];
         $speed_total = [];
         $reject_total = [];
+        $finished = [0];
         foreach (self::get() as $item) {
-            $item['speed'] = $item['g'] ? ($item['e'] - $item['s']) / $item['g'] : 0;
+            $item['speed'] = $item['g'] ? 60 / (($item['e'] - $item['s']) / $item['g']) : 0;
             $item['reject'] = $item['n'] ? 100 - ($item['g'] / $item['n'] * 100) : 100;
             $speed_total[] = $item['speed'];
             $reject_total[] = $item['reject'];
+            $finished[] = $item['e'];
             $data[] = $item;
         }
-        $data['speed'] = number_format($speed_total ? array_sum($speed_total) / count($speed_total) : 0, 2) . ' goals/sec';
+        $data['speed'] = number_format($speed_total ? array_sum($speed_total) / count($speed_total) : 0, 2) . ' goals/min';
         $data['reject'] = number_format($reject_total ? array_sum($reject_total) / count($reject_total) : 100, 2) . ' %';
+        $data['started'] = date('Y-m-d H:i:s', $data[0]['s']);
+        $data['finished'] = date('Y-m-d H:i:s', max($finished));
         self::$status = (object)$data;
         return self::$status;
     }
