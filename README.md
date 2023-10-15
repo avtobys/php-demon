@@ -9,3 +9,6 @@ Available arguments:
   log      - displays the logs of the daemon and its processes
 ```
 
+Example status:
+
+![Screenshot](status.png)
