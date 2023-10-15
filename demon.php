@@ -43,5 +43,6 @@ usleep(rand(10000, 1000000)); // для тестирования задержк�
 
 if (mt_rand(0, 7) == 7) { // цель достигнута
     Goals::goal('goal-1', 'goal-test-2'); // фиксация достижения определённых целей если они были достигнуты в текущем процессе
-    echo date('M d H:i:s') . " " . getenv('USER') . " Iteration: " . Controls::$iteration . "; Speed: " . Goals::status()->speed . "; Reject: " . Goals::status()->reject . "; Current processes: " . Controls::$proc . "; Time: " . (microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) . "\n"; // пишем в лог
 }
+
+echo date('M d H:i:s') . " " . getenv('USER') . " Iteration: " . Controls::$iteration . "; Speed: " . Goals::status()->speed . "; Reject: " . Goals::status()->reject . "; Current processes: " . Controls::$proc . "; Time: " . (microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) . "\n"; // пишем в лог
