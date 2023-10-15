@@ -5,8 +5,6 @@ const MIN_PROCESSES = 1;
 const MAX_PROCESSES = 1;
 const MAX_ITERATIONS = 1000;
 
-const GOALS = ['goal-1', 'goal-test-2']; // объявление любого множества целей для рассчета скорости их обработки и отказов по ним
-
 const LOG_FILE = __DIR__ . '/temp/demon.log'; // для отключения логгирования заменить значение на /dev/null
 
 const DATABASE = [
@@ -33,6 +31,7 @@ $demon = new Controls($argv);
 // $dbh->exec("UPDATE my_table SET status = 'processing' WHERE id = $id");
 // $dbh = null;
 
+new Goals('goal-1', 'goal-test-2'); // объявление любого множества целей для рассчета скорости их обработки и отказов по ним
 $demon->run(); // распараллеливание и запуск параллельных потоков
 
 
@@ -42,7 +41,7 @@ usleep(rand(10000, 1000000)); // для тестирования задержк�
 
 
 
-
-
-$demon->goal('goal-1', 'goal-test-2'); // фиксация достижения определённых целей если они были достигнуты в текущем процессе
-echo date('M d H:i:s') . " " . getenv('USER') . " Iteration: " . Controls::$iteration . "; Speed: " . Goals::status()->speed . "; Reject: " . Goals::status()->reject . "; Current processes: " . Controls::$proc . "; Time: " . (microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) . "\n"; // пишем в лог
+if (mt_rand(0, 7) == 7) { // цель достигнута
+    Goals::goal('goal-1', 'goal-test-2'); // фиксация достижения определённых целей если они были достигнуты в текущем процессе
+    echo date('M d H:i:s') . " " . getenv('USER') . " Iteration: " . Controls::$iteration . "; Speed: " . Goals::status()->speed . "; Reject: " . Goals::status()->reject . "; Current processes: " . Controls::$proc . "; Time: " . (microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) . "\n"; // пишем в лог
+}

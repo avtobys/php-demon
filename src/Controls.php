@@ -176,7 +176,6 @@ class Controls
             self::$lock->flock(LOCK_UN);
             exit(0);
         }
-        Goals::set(GOALS ?: ['demon']);
     }
 
     public function run()
@@ -188,14 +187,7 @@ class Controls
         self::$lock->fwrite(self::$iteration);
         self::$lock->flock(LOCK_UN);
         self::$runned = true;
-    }
-
-    public function goal(...$goals)
-    {
-        $goals = empty($goals) ? ['demon'] : $goals;
-        foreach ($goals as $item) {
-            Goals::goal($item);
-        }
+        Goals::set(Goals::$goals);
     }
 
     public function __destruct()
