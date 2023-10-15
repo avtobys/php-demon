@@ -69,11 +69,10 @@ class Controls
 
     private function restart()
     {
-        $this->stop();
-        $this->start();
+        $this->stop(true);
     }
 
-    private function stop()
+    private function stop($is_restart = false)
     {
         @unlink(self::LOCK_FILE);
         $attempts = 0;
@@ -93,12 +92,18 @@ class Controls
             if ($attempts >= 10 && empty($pids) && $killed) {
                 @unlink(self::LOCK_FILE);
                 echo "Success: all demon processes($killed) killed\n";
+                if ($is_restart) {
+                    $this->start();
+                }
                 exit(0);
             }
             usleep(300000);
         } while ($attempts++ < 100);
         if (!$killed) {
             echo "Error: demon not running. Processes not found...\n";
+            if ($is_restart) {
+                $this->start();
+            }
             exit(1);
         }
         echo "Error: can't kill all demon processes\n";
